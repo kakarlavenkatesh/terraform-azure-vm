@@ -2,11 +2,13 @@ pipeline {
     agent any
     
     environment {
+        // These 4 must exist as Secret Text or Username/Password in Jenkins
         ARM_CLIENT_ID       = credentials('AZURE_CLIENT_ID')
         ARM_CLIENT_SECRET   = credentials('AZURE_CLIENT_SECRET')
         ARM_TENANT_ID       = credentials('AZURE_TENANT_ID')
         ARM_SUBSCRIPTION_ID = credentials('AZURE_SUBSCRIPTION_ID')
-        // 1. Fetch the SSH key from Jenkins Credentials (stored as Secret Text)
+        
+        // This is the one causing the current error
         SSH_KEY             = credentials('AZURE_VM_SSH_KEY')
     }
 
@@ -25,7 +27,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                // 2. PASS THE VARIABLE HERE using -var
+                // We pass the SSH key variable here
                 sh "terraform plan -var='ssh_public_key=${SSH_KEY}' -out=tfplan -input=false"
             }
         }
