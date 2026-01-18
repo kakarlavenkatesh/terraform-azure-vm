@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "rg" {
   name     = "rg-jenkins-tf"
-  location = "East US"
+  location = "Central India"
 }
 
 resource "azurerm_virtual_network" "vnet" {
