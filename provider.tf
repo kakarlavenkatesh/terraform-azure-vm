@@ -6,8 +6,8 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "tf-state-rg"
-    storage_account_name = "youruniquestorageacct"
+    resource_group_name  = "tfstate-day04"
+    storage_account_name = "day0416658"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
