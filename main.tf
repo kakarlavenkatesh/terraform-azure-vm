@@ -62,3 +62,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
     version   = "latest"
   }
 }
+admin_ssh_key {
+    username   = "azureuser"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC..." # Paste your actual key here
+  }
