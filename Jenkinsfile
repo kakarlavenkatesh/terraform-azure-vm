@@ -13,7 +13,7 @@ pipeline {
     stage('Checkout Code') {
       steps {
         git branch: 'main',
-        url: 'https://github.com/kakarlavenkatesh/terraform-azure-vm.git'
+            url: 'https://github.com/kakarlavenkatesh/terraform-azure-vm.git'
       }
     }
 
@@ -31,14 +31,13 @@ pipeline {
 
     stage('Terraform Plan') {
       steps {
-        sh 'terraform plan -out=tfplan'
+        sh 'terraform plan'
       }
     }
 
     stage('Terraform Apply') {
       steps {
-        input message: 'Do you want to apply Terraform changes?'
-        sh 'terraform apply tfplan'
+        sh 'terraform apply -auto-approve'
       }
     }
   }
