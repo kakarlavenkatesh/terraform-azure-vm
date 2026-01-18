@@ -16,11 +16,10 @@ pipeline {
             }
         }
 
-        stage('Terraform Init') {
+stage('Terraform Init') {
     steps {
-        // -input=false prevents Terraform from asking for user input
-        // -migrate-state automatically handles moving from local to Azure backend
-        sh 'terraform init -input=false -migrate-state'
+        // -force-copy answers "yes" to the migration prompt automatically
+        sh 'terraform init -input=false -migrate-state -force-copy'
     }
 }
 
