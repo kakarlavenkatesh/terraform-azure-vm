@@ -17,8 +17,8 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-resource "azurerm_network_interface" "nic" {
-  name                = "jenkins-nic"
+resource "azurerm_network_interface" "nic2" {
+  name                = "jenkins-nic2"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -37,7 +37,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   admin_username      = "azureuser"
 
   network_interface_ids = [
-    azurerm_network_interface.nic.id
+    azurerm_network_interface.nic2.id
   ]
 
   disable_password_authentication = true
