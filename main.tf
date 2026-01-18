@@ -1,10 +1,6 @@
-variable "ssh_public_key" {
-  type = string
-}
-
 resource "azurerm_resource_group" "rg" {
   name     = "rg-jenkins-tf"
-  location = "centralindia"
+  location = "Central India"
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -26,6 +22,10 @@ resource "azurerm_network_interface" "nic" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   ip_configuration {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
@@ -39,11 +39,16 @@ resource "azurerm_linux_virtual_machine" "vm" {
   location            = azurerm_resource_group.rg.location
   size                = "Standard_B2s"
   admin_username      = "azureuser"
-  network_interface_ids = [azurerm_network_interface.nic.id]
+
+  network_interface_ids = [
+    azurerm_network_interface.nic.id
+  ]
+
+  disable_password_authentication = true
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = var.ssh_public_key
+    public_key = "ssh-rsa AAAA....your_public_key_here"
   }
 
   os_disk {
