@@ -9,8 +9,7 @@ pipeline {
   }
 
   stages {
-
-    stage('Checkout Code') {
+    stage('Checkout') {
       steps {
         git branch: 'main',
             url: 'https://github.com/kakarlavenkatesh/terraform-azure-vm.git'
@@ -26,12 +25,6 @@ pipeline {
     stage('Terraform Validate') {
       steps {
         sh 'terraform validate'
-      }
-    }
-
-    stage('Terraform Plan') {
-      steps {
-        sh 'terraform plan'
       }
     }
 
