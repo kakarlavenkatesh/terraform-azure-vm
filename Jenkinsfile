@@ -16,7 +16,11 @@ pipeline {
     stage('Checkout') {
       steps {
         git branch: 'main',
+<<<<<<< HEAD
             url: 'https://github.com/kakarlavenkatesh/terraform-azure-vm.git'
+=======
+        url: 'git@github.com:kakarlavenkatesh/terraform-azure-vm.git'
+>>>>>>> bb0eda3 (Add network interface and attach to VM)
       }
     }
 
