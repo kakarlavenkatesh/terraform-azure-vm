@@ -13,7 +13,7 @@ pipeline {
     stage('Checkout Code') {
       steps {
         git branch: 'main',
-        url: 'https://github.com/your-org/terraform-azure-vm.git'
+        url: 'https://github.com/kakarlavenkatesh/terraform-azure-vm.git'
       }
     }
 
