@@ -66,3 +66,14 @@ admin_ssh_key {
     username   = "azureuser"
     public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC..." # Paste your actual key here
   }
+variable "ssh_public_key" {
+  type = string
+}
+
+resource "azurerm_linux_virtual_machine" "vm" {
+  # ... other config ...
+  admin_ssh_key {
+    username   = "azureuser"
+    public_key = var.ssh_public_key
+  }
+}
