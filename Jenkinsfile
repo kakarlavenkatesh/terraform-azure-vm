@@ -17,11 +17,12 @@ pipeline {
         }
 
         stage('Terraform Init') {
-            steps {
-                // Initialize and handle the backend
-                sh 'terraform init'
-            }
-        }
+    steps {
+        // -input=false prevents Terraform from asking for user input
+        // -migrate-state automatically handles moving from local to Azure backend
+        sh 'terraform init -input=false -migrate-state'
+    }
+}
 
         stage('Terraform Plan') {
             steps {
