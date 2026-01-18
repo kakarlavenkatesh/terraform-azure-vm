@@ -1,26 +1,26 @@
-resource "azurerm_resource_group" "rg" {
-  name     = "rg-jenkins-tf"
+resource "azurerm_resource_group" "rgs" {
+  name     = "rgs-jenkins-tf"
   location = "Central India"
 }
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-jenkins"
   address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rgs.location
+  resource_group_name = azurerm_resource_group.rgs.name
 }
 
 resource "azurerm_subnet" "subnet" {
   name                 = "subnet1"
-  resource_group_name  = azurerm_resource_group.rg.name
+  resource_group_name  = azurerm_resource_group.rgs.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_network_interface" "nic" {
   name                = "jenkins-nic"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rgs.location
+  resource_group_name = azurerm_resource_group.rgs.name
 
   ip_configuration {
     name                          = "internal"
@@ -31,8 +31,8 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = "jenkins-vm"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rgs.name
+  location            = azurerm_resource_group.rgs.location
   size                = "Standard_B2s"
   admin_username      = "azureuser"
 
@@ -44,7 +44,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("${path.module}/admin_ssh_key.pub")
+    public_key = trimspace(file("${path.module}/admin_ssh_key.pub"))
   }
 
   os_disk {
