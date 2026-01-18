@@ -1,27 +1,8 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 4.57.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-# -----------------------------
-# Resource Group
-# -----------------------------
 resource "azurerm_resource_group" "rg" {
   name     = "rg-jenkins-tf"
   location = "Central India"
 }
 
-# -----------------------------
-# Virtual Network
-# -----------------------------
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet-jenkins"
   address_space       = ["10.0.0.0/16"]
@@ -29,9 +10,6 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# -----------------------------
-# Subnet
-# -----------------------------
 resource "azurerm_subnet" "subnet" {
   name                 = "subnet1"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -39,15 +17,11 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# -----------------------------
-# Network Interface (NIC)
-# -----------------------------
 resource "azurerm_network_interface" "nic" {
   name                = "jenkins-nic"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
-  # Prevent Azure NIC lock issues
   lifecycle {
     create_before_destroy = true
   }
@@ -59,9 +33,6 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-# -----------------------------
-# Linux Virtual Machine
-# -----------------------------
 resource "azurerm_linux_virtual_machine" "vm" {
   name                = "jenkins-vm"
   resource_group_name = azurerm_resource_group.rg.name
