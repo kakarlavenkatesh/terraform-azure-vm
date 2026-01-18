@@ -22,10 +22,6 @@ resource "azurerm_network_interface" "nic" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   ip_configuration {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnet.id
@@ -48,7 +44,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = "ssh-rsa AAAA....your_public_key_here"
+    public_key = file("${path.module}/admin_ssh_key.pub")
   }
 
   os_disk {
